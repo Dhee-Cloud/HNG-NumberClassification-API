@@ -169,14 +169,30 @@ Negative Response
   ```
 
 ## Deployment
-For the deployment, we will be using an AWS Ec2 Instance following the steps below:
+For the deployment, we will be using Rendel following the steps below:
 
--Create your Ec2 Instance
+1. Create your web service
+- log in to Rendel and select web service
+  
+2. Connect to your GitHub Repository
+- Select the GitHub Icon and select the repository with the Flask API
+  
+3. Configure your settings
+- Under Language select python3
+- under build command input
+```
+pip install -r requirement.txt
+```
+- Under start command input
+```
+python3 app.py
+```
+-Select Free Account
 
--Connect into your instance using SSH
--Cloe your github repo
--Install the depencies
--Run the flask app
+4. Hit Deploy and after it sets up it will display your URL to access the API
+```
+https://hng-numberclassification-api-1.onrender.com/api/classify-number?number=371
+```
 
 
 
