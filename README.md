@@ -6,10 +6,10 @@ This is a GitHub Repo for a number classification API that I built as a task dur
 2. Using the API
 3. API Endpoint
    1. GET request
-4.Response Format
- -Successful Response
- -Error Response
--File Structure
--Testing
--Deployment
+4. Response Format
+5. Successful Response
+  1. Error Response
+  2. File Structure
+6. Testing
+7. Deployment
 
