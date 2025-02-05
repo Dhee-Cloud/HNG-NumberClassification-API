@@ -3,10 +3,10 @@ from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(_name_)
 CORS(app)
 
-# Helper functions to determine properties of a number
+# Helper functions
 def is_prime(n):
     if n <= 1:
         return False
@@ -17,7 +17,7 @@ def is_prime(n):
 
 def is_perfect(n):
     if n <= 0:
-        return False  # Handle non-positive numbers
+        return False  
     divisors_sum = sum(i for i in range(1, n) if n % i == 0)
     return divisors_sum == n
 
@@ -32,45 +32,45 @@ def digit_sum(n):
 
 @app.route('/api/classify-number', methods=['GET'])
 def classify_number():
+    number_param = request.args.get('number')
+    
     try:
-        number = int(request.args.get('number'))
+        number = int(number_param)
     except (ValueError, TypeError):
-        return jsonify({"number": "alphabet", "error": True}), 400
-
-    # Calculate properties
+        return jsonify({"error": True}), 400  # Fix incorrect error response format
+    
+    # Determine properties
     prime = is_prime(number)
     perfect = is_perfect(number)
     armstrong = is_armstrong(number)
     odd = number % 2 != 0
-
     properties = []
+
     if armstrong:
         properties.append("armstrong")
-    if odd:
-        properties.append("odd")
-    else:
-        properties.append("even")
+    properties.append("odd" if odd else "even")
 
-    # Fetch the fun fact from Numbers API with error handling
+    # Fetch fun fact with error handling
+    fun_fact = f"No fun fact available for {number}"  # Default message
     try:
-        fun_fact_response = requests.get(f"http://numbersapi.com/{number}?json")
-        fun_fact_response.raise_for_status()  # Raise an error for bad status codes
-        fun_fact = fun_fact_response.json().get('text', f"No fun fact available for {number}")
-    except requests.RequestException as e:
-        fun_fact = f"Could not fetch fun fact: {str(e)}"
+        response = requests.get(f"http://numbersapi.com/{number}?json", timeout=3)
+        if response.status_code == 200:
+            fun_fact = response.json().get('text', fun_fact)
+    except requests.RequestException:
+        pass  # Keep the default message if API fails
 
     # Prepare response
-    response = {
+    response_data = {
         "number": number,
         "is_prime": prime,
         "is_perfect": perfect,
         "properties": properties,
-        "digit_sum": digit_sum(number),
+        "class_sum": digit_sum(number),  # Fixed key name
         "fun_fact": fun_fact
     }
+    
+    return jsonify(response_data), 200
 
-    return jsonify(response), 200
-
-if __name__ == '__main__':
+if _name_ == '_main_':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)  # Set debug=False in production
+    app.run(host='0.0.0.0', port=port, debug=True)
