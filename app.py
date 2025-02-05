@@ -8,48 +8,62 @@ CORS(app)
 
 # Helper functions to determine properties of a number
 def is_prime(n):
+    """Check if a number is prime."""
     if n <= 1:
         return False
-    for i in range(2, int(n ** 0.5) + 1):
+    for i in range(2, int(n**0.5) + 1):
         if n % i == 0:
             return False
     return True
 
 def is_perfect(n):
+    """Check if a number is perfect."""
     if n <= 0:
-        return False  # Handle non-positive numbers
+        return False
     divisors_sum = sum(i for i in range(1, n) if n % i == 0)
     return divisors_sum == n
 
 def is_armstrong(n):
+    """Check if a number is an Armstrong number."""
     if n < 0:
         return False
     digits = [int(digit) for digit in str(n)]
-    return sum(d ** len(digits) for d in digits) == n
+    return sum(d**len(digits) for d in digits) == n
 
 def digit_sum(n):
-    return sum(int(digit) for digit in str(abs(int(n))))  # Handle floating-point numbers
+    """Calculate the sum of the digits of a number."""
+    return sum(int(digit) for digit in str(abs(int(n))))
 
 @app.route('/api/classify-number', methods=['GET'])
 def classify_number():
+    """Endpoint to classify a number and return its properties."""
     number = request.args.get('number')
 
-    # Check if the input is a valid number (integer or floating-point)
+    # Validate input: Check if the input is a valid number (integer or floating-point)
     try:
         number = float(number)  # Accept both integers and floating-point numbers
     except (ValueError, TypeError):
         return jsonify({"number": "alphabet", "error": True}), 400
 
-    # Calculate properties
-    prime = is_prime(int(number)) if number.is_integer() else False  # Prime only for integers
-    perfect = is_perfect(int(number)) if number.is_integer() else False  # Perfect only for integers
-    armstrong = is_armstrong(int(number)) if number.is_integer() else False  # Armstrong only for integers
-    odd = int(number) % 2 != 0 if number.is_integer() else False  # Odd/even only for integers
+    # Calculate properties (only for integers)
+    is_integer = number.is_integer()
+    if is_integer:
+        number = int(number)  # Convert to integer for calculations
+        prime = is_prime(number)
+        perfect = is_perfect(number)
+        armstrong = is_armstrong(number)
+        odd = number % 2 != 0
+    else:
+        prime = False
+        perfect = False
+        armstrong = False
+        odd = False
 
+    # Determine properties list
     properties = []
     if armstrong:
         properties.append("armstrong")
-    if number.is_integer():
+    if is_integer:
         properties.append("odd" if odd else "even")
 
     # Fetch the fun fact from Numbers API (math type)
