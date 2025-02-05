@@ -9,11 +9,11 @@ This is a GitHub Repo for a number classification API that I built as a task dur
 -Using the API
 
 -API Endpoint
- -GET request
+- GET /api/classify-number
  
 -Response Format
- -Successful Response
- -Error Response
+- Successful Response
+- Error Response
  
 -File Structure
 
@@ -25,29 +25,50 @@ This is a GitHub Repo for a number classification API that I built as a task dur
 
 ## Installing the Flask API
 
-**Prerequisites**
+### Prerequisites
 
--Python
+1. Python
 
--Python Packges Installer(PIP)
+2. Python Packges Installer(PIP)
 
--Terminal
+3. Terminal
 
-**To create and run the API follow the steps below**
+### To create and run the API follow the steps below
 
--Create your repository on GitHub
+1. Create your repository on GitHub
 
--Clone that Repository to your local machine
+2. Clone that Repository to your local machine
 
 ```
 Git Clone https://github.com/Dhee-Cloud/HNG-NumberClassification-API.git
 cd HNG-NumberClassification-API.git
 ```
 
--Install the required Dependencies
+3. Install the required Dependencies
 
 ```
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 
+4. Run the Flask API App
+
+```
+python app.py
+```
+
+## Using the API
+After setting up the API, you can perform a GET request to the `/api/classify-number` endpoint with a query parameter `number`
+
+Example: 
+```
+http://127.0.0.1:5000/api/classify-number?number=432
+```
+
+Expected Response:
+For an input that's valid like `432`, the expected response from the API will be
+
+
+
+   
+   
 
