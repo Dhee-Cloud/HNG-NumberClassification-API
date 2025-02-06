@@ -30,7 +30,7 @@ def is_armstrong(n):
     digits = [int(digit) for digit in str(n)]
     return sum(d**len(digits) for d in digits) == n
 
-def class_sum(n):
+def digit_sum(n):
     """Calculate the sum of the digits of a number."""
     return sum(int(digit) for digit in str(abs(int(n))))
 
@@ -80,7 +80,7 @@ def classify_number():
         "is_prime": prime,
         "is_perfect": perfect,
         "properties": properties,
-        "class_sum": digit_sum(number),  # Sum of digits
+        "digit_sum": digit_sum(number),  # Sum of digits
         "fun_fact": fun_fact
     }
 
