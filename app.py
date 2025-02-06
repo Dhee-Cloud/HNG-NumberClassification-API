@@ -30,7 +30,7 @@ def is_armstrong(n):
     digits = [int(digit) for digit in str(n)]
     return sum(d**len(digits) for d in digits) == n
 
-def digit_sum(n):
+def class_sum(n):
     """Calculate the sum of the digits of a number."""
     return sum(int(digit) for digit in str(abs(int(n))))
 
